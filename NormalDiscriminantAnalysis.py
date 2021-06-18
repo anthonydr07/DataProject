@@ -153,9 +153,9 @@ print("Accuracy test : ", accuracy_score(Y_test, pred))
 # In[16]:
 
 
-X_10 = pd.DataFrame(np.random.normal(loc=0.0, scale=1.0, size=[500,2]),columns=['Point0','Point1'])
+X_10 = pd.DataFrame(np.random.multivariate_normal([0,0], np.eye(2, dtype=int), (500)),columns=['Point0','Point1'])
 X_10['Class'] = 0
-X_11 = pd.DataFrame(np.random.normal(loc=7, scale=1.0, size=[500,2]),columns=['Point0','Point1'])
+X_11 = pd.DataFrame(np.random.multivariate_normal([7,7], np.eye(2, dtype=int), (500)),columns=['Point0','Point1'])
 X_11['Class'] = 1
 X = X_10.append(X_11).reset_index(drop=True)
 
@@ -280,32 +280,40 @@ col
 # In[32]:
 
 
-X_10 = pd.DataFrame(np.random.normal(loc=0.0, scale=1.0, size=[500,n]),columns=col)
-X_10['Class'] = 0
-X_11 = pd.DataFrame(np.random.normal(loc=7, scale=1.0, size=[500,n]),columns=col)
-X_11['Class'] = 1
-X = X_10.append(X_11).reset_index(drop=True)
+mean = np.array([0 for i in range(n)])
+mean1 = mean + 7
+cov = np.eye(n, dtype=int)
 
 
 # In[33]:
 
 
-X.head()
+X_10 = pd.DataFrame(np.random.multivariate_normal(mean, cov, (500)),columns=col)
+X_10['Class'] = 0
+X_11 = pd.DataFrame(np.random.multivariate_normal(mean1, cov, (500)),columns=col)
+X_11['Class'] = 1
+X = X_10.append(X_11).reset_index(drop=True)
 
 
 # In[34]:
 
 
-X[col].hist()
+X.head()
 
 
 # In[35]:
 
 
-X_train, X_test, Y_train, Y_test = train_test_split(X[col], X.Class, test_size=0.33, random_state=42)
+X[col].hist()
 
 
 # In[36]:
+
+
+X_train, X_test, Y_train, Y_test = train_test_split(X[col], X.Class, test_size=0.33, random_state=42)
+
+
+# In[37]:
 
 
 mean0 = X_train.loc[Y_train[Y_train==0].index.tolist()].mean().tolist()
@@ -314,32 +322,32 @@ mean1 = X_train.loc[Y_train[Y_train==1].index.tolist()].mean().tolist()
 corr1 = X_train.loc[Y_train[Y_train==1].index.tolist()].corr()
 
 
-# In[37]:
+# In[38]:
 
 
 Y_train.value_counts()
 
 
-# In[38]:
+# In[39]:
 
 
 p_y0 = (Y_train.value_counts()/Y_train.shape[0])[0]
 p_y1 = (Y_train.value_counts()/Y_train.shape[0])[1]
 
 
-# In[39]:
+# In[40]:
 
 
 _, pred_multi = nda_multi(X_train,mean0,corr0,mean1,corr1,pred=True)
 
 
-# In[40]:
+# In[41]:
 
 
 print("Accuracy test : ", accuracy_score(Y_train, pred_multi))
 
 
-# In[41]:
+# In[42]:
 
 
 _, pred_multi_test = nda_multi(X_test,mean0,corr0,mean1,corr1,pred=True)
