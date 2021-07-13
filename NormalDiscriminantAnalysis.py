@@ -6,6 +6,8 @@
 # In[1]:
 
 
+# Library
+
 import pandas as pd
 import numpy as np
 from scipy.stats import norm, multivariate_normal  
@@ -18,6 +20,8 @@ from sklearn.metrics import accuracy_score
 
 # In[2]:
 
+
+# simulate data
 
 X_10 = pd.DataFrame(np.random.normal(loc=0.0, scale=1.0, size=[500,1]),columns=['Point'])
 X_10['Class'] = 0
@@ -41,17 +45,23 @@ X.head()
 # In[5]:
 
 
+# Class balance
+
 X.Class.value_counts().plot(kind="bar")
 
 
 # In[6]:
 
 
+# boxplot
+
 X.boxplot(by="Class")
 
 
 # In[7]:
 
+
+# Plot of the data
 
 val = 0. # this is the value where you want the data to appear on the y-axis.
 x_0 = X[X.Class==0]
@@ -64,6 +74,8 @@ plt.show()
 # In[8]:
 
 
+# Mean and variance
+
 mean0 = X[X.Class==0].Point.mean()
 std0 = X[X.Class==0].Point.std()
 mean1 = X[X.Class==1].Point.mean()
@@ -72,6 +84,8 @@ std1 = X[X.Class==1].Point.std()
 
 # In[9]:
 
+
+# Histogram plot with gaussian courb
 
 X.Point.plot(kind='hist', normed=True)
 range_ = np.arange(-4, 10, 0.001)
@@ -153,6 +167,8 @@ print("Accuracy test : ", accuracy_score(Y_test, pred))
 # In[16]:
 
 
+# Simulate data
+
 X_10 = pd.DataFrame(np.random.multivariate_normal([0,0], np.eye(2, dtype=int), (500)),columns=['Point0','Point1'])
 X_10['Class'] = 0
 X_11 = pd.DataFrame(np.random.multivariate_normal([7,7], np.eye(2, dtype=int), (500)),columns=['Point0','Point1'])
@@ -169,6 +185,8 @@ X.head()
 # In[18]:
 
 
+# Plot data
+
 plt.plot(X[X.Class==0].Point0,X[X.Class==0].Point1,"o")
 plt.plot(X[X.Class==1].Point0,X[X.Class==1].Point1,"o")
 plt.show()
@@ -177,11 +195,15 @@ plt.show()
 # In[19]:
 
 
+# Boxplot
+
 X.boxplot(by='Class')
 
 
 # In[20]:
 
+
+# Mean and variance
 
 mean0 = X[X.Class==0][['Point0','Point1']].mean().tolist()
 std0 = X[X.Class==0][['Point0','Point1']].corr()
@@ -191,6 +213,8 @@ std1 = X[X.Class==1][['Point0','Point1']].corr()
 
 # In[21]:
 
+
+# Histogram
 
 X[['Point0','Point1']].hist()
 
