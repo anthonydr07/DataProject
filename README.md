@@ -1,2 +1,2 @@
 # DataProject
-Little projects on data science 
+Data science projects
