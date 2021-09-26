@@ -1,5 +1,5 @@
 # DataProject
-Little projects on data science 
+Data science project 
 
 - Streamlit with iris dataset
 - Fraud Detection EDA (exploratory data analysis) and algo
